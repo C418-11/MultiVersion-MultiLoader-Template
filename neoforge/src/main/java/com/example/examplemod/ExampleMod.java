@@ -17,5 +17,8 @@ public class ExampleMod {
         Constants.LOG.info("Hello NeoForge world!");
         CommonClass.init();
 
+        #if MC26_1_X
+        Constants.LOG.info("Hello from 26.1.X NeoForge");
+        #endif
     }
 }
