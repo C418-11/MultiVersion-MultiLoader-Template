@@ -3,6 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
+gradle.ext.loadVersionProperties(project.ext)
+
 base {
     archivesName = "${mod_id}-${project.name}-${minecraft_version}"
 }
