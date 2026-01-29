@@ -46,7 +46,40 @@ plugins {
 
 // This should match the folder name of the project, or else IDEA may complain (see https://youtrack.jetbrains.com/issue/IDEA-317606)
 rootProject.name = 'MultiLoader-Template'
+
+def loadVersionProperties = { ExtraPropertiesExtension namespace ->
+    def minecraftVersion = providers.gradleProperty('minecraft_version').getOrNull()
+    if (!minecraftVersion) {
+        throw new GradleException("The 'minecraft_version' property is required in gradle.properties")
+    }
+
+    def versionFile = rootDir.toPath().resolve("versions/${minecraftVersion}.properties").toFile()
+    if (!versionFile.exists()) {
+        throw new GradleException("Version properties file not found: versions/${minecraftVersion}.properties")
+    }
+
+    def props = new Properties()
+    versionFile.withInputStream { props.load(it) }
+
+    props.each { key, value -> namespace.set(key as String, value) }
+
+    println "Version properties loaded for Minecraft ${minecraftVersion}"
+}
+
+gradle.ext.loadVersionProperties = loadVersionProperties
+loadVersionProperties(settings.ext)
+
 include('common')
-include('fabric')
-include('neoforge')
-include('forge')
+
+void includeMODLoader(String loaderProperty, String loaderName, String projectPath) {
+    if (settings.hasProperty(loaderProperty)) {
+        println "${loaderName.capitalize()} loader included, version: ${settings.ext.get(loaderProperty)}"
+        include(projectPath)
+    } else {
+        println "${loaderName.capitalize()} loader skipped: '${loaderProperty}' not set"
+    }
+}
+
+includeMODLoader("fabric_version", "Fabric", "fabric")
+includeMODLoader("neoforge_version", "NeoForge", "neoforge")
+includeMODLoader("forge_version", "Forge", "forge")
