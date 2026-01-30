@@ -46,6 +46,17 @@ repositories {
     }
 }
 
+allprojects {
+    tasks.withType(JavaCompile).configureEach {
+        def currentVersion = minecraft_version.replace('.', '_')
+        options.compilerArgs += ['-Xplugin:Manifold', '-AMC' + currentVersion]
+    }
+
+    dependencies {
+        annotationProcessor "systems.manifold:manifold-preprocessor:2026.1.0"
+    }
+}
+
 // Declare capabilities on the outgoing configurations.
 // Read more about capabilities here: https://docs.gradle.org/current/userguide/component_capabilities.html#sec:declaring-additional-capabilities-for-a-local-component
 ['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
@@ -99,8 +110,8 @@ processResources {
             'description'                  : project.description,
             'neoforge_version'             : neoforge_version,
             'neoforge_loader_version_range': neoforge_loader_version_range,
-            "forge_version": forge_version,
-            "forge_loader_version_range": forge_loader_version_range,
+            "forge_version"                : forge_version,
+            "forge_loader_version_range"   : forge_loader_version_range,
             'credits'                      : credits,
             'java_version'                 : java_version
     ]
