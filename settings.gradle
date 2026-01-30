@@ -48,7 +48,7 @@ loadVersionProperties(settings.ext)
 include('common')
 
 void includeMODLoader(String loaderProperty, String loaderName, String projectPath) {
-    if (settings.hasProperty(loaderProperty)) {
+    if (settings.ext.get(loaderProperty) != "null") {
         println "${loaderName.capitalize()} loader included, version: ${settings.ext.get(loaderProperty)}"
         include(projectPath)
     } else {

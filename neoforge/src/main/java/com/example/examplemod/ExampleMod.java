@@ -15,6 +15,9 @@ public class ExampleMod {
 
         // Use NeoForge to bootstrap the Common mod.
         Constants.LOG.info("Hello NeoForge world!");
+        #if MC1_21_11
+        Constants.LOG.info("Hello from Manifold in 1.21.11!");
+        #endif
         CommonClass.init();
 
     }
