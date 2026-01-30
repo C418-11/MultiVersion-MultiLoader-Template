@@ -27,5 +27,11 @@ public class CommonClass {
 
             Constants.LOG.info("Hello to examplemod");
         }
+
+        #if MC1_21_11
+        Constants.LOG.info("Hello from 1.21.11");
+        #elif MC1_21_X
+        Constants.LOG.info("Hello from 1.21.X");
+        #endif
     }
 }
