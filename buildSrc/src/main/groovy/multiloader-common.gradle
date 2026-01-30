@@ -50,6 +50,13 @@ allprojects {
     tasks.withType(JavaCompile).configureEach {
         def currentVersion = minecraft_version.replace('.', '_')
         options.compilerArgs += ['-Xplugin:Manifold', '-AMC' + currentVersion]
+        if (minecraft_version ==~ /^\d+\.\d+\.\d+$/) {
+            def blurryVersion = currentVersion.substring(0, currentVersion.lastIndexOf('_') + 1) + 'X'
+            options.compilerArgs += ['-AMC' + blurryVersion]
+        } else {
+            println "WARNING: Snapshot version detected (${minecraft_version})." +
+                    " Wildcard version preprocessing (e.g., MC1_21_X) is not available for snapshots."
+        }
     }
 
     dependencies {

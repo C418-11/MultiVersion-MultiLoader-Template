@@ -38,9 +38,14 @@ This version introduces the following changes to support easier multi‑version 
        #if MC1_21_8
        // Code that only compiles for Minecraft 1.21.8
        #endif
+
+       #if MC1_21_X
+       // Code that compiles for all Minecraft 1.21.x versions
+       #endif
        ```
     - The preprocessor directives allow you to write version‑specific code blocks that are automatically included or
-      excluded during compilation based on the target `minecraft_version`.
+      excluded during compilation based on the target `minecraft_version`. Wildcard matching (e.g., `MC1_21_X`) is also
+      supported for version ranges.
 
 These adjustments provide more explicit control over loader inclusion and enable powerful conditional compilation for
 multi‑version support, while maintaining compatibility with the original template structure.
