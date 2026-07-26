@@ -3,13 +3,30 @@ gradle.ext.loadVersionProperties(project.ext)
 allprojects {
     tasks.withType(JavaCompile).configureEach {
         def currentVersion = minecraft_version.replace('.', '_')
-        options.compilerArgs += ['-Xplugin:Manifold', '-AMC' + currentVersion]
-        if (minecraft_version ==~ /^\d+\.\d+\.\d+$/) {
-            def blurryVersion = currentVersion.substring(0, currentVersion.lastIndexOf('_') + 1) + 'X'
-            options.compilerArgs += ['-AMC' + blurryVersion]
+        options.compilerArgs += ['-Xplugin:Manifold']
+
+        if (minecraft_version ==~ /^\d+\.\d+$/) {
+            def parts = minecraft_version.split('\\.')
+            def major = parts[0]
+            def minor = parts[1]
+
+            options.compilerArgs += ['-AMC' + currentVersion]
+            options.compilerArgs += ['-AMC' + major + '_' + minor + '_X']
+        } else if (minecraft_version ==~ /^\d+\.\d+\.\d+$/) {
+            def parts = minecraft_version.split('\\.')
+            def major = parts[0]
+            def minor = parts[1]
+
+            options.compilerArgs += ['-AMC' + currentVersion]
+            options.compilerArgs += ['-AMC' + major + '_' + minor + '_X']
         } else {
-            println "WARNING: Snapshot version detected (${minecraft_version})." +
+            def sanitized = minecraft_version.toUpperCase().replace('-', '_').replace('.', '_')
+            options.compilerArgs += ['-AMC' + sanitized]
+            println "Non-standard version ${minecraft_version}: using ${sanitized}." +
                     " Wildcard version preprocessing (e.g., MC1_21_X) is not available for snapshots."
+            if (!(sanitized ==~ /^[0-9A-Z_]+$/)) {
+                println "WARNING: Invalid version detected (${minecraft_version})."
+            }
         }
     }
 

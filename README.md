@@ -43,21 +43,27 @@ This version introduces the following changes to support easier multi‑version 
       versions.
     - In your source code, you can now use the following syntax:
        ```java
-       #if MC1_21_11
-       // Code that only compiles for Minecraft 1.21.11
+       #if MC1_21
+       // Code that only compiles for Minecraft 1.21 (exact two‑segment version)
        #endif
 
-       #if MC1_21_8
-       // Code that only compiles for Minecraft 1.21.8
+       #if MC1_21_1
+       // Code that only compiles for Minecraft 1.21.1
        #endif
 
        #if MC1_21_X
-       // Code that compiles for all Minecraft 1.21.x versions
+       // Code that compiles for all Minecraft 1.21.x versions (e.g. 1.21, 1.21.1, 1.21.2 …)
        #endif
        ```
-    - The preprocessor directives allow you to write version‑specific code blocks that are automatically included or
-      excluded during compilation based on the target `minecraft_version`. Wildcard matching (e.g., `MC1_21_X`) is also
-      supported for version ranges.
+    - The preprocessor directives are determined automatically from the `minecraft_version` property:
+      * **Two‑segment versions** (e.g. `1.21`) define both `MC1_21` and the wildcard `MC1_21_X`.
+      * **Three‑segment versions** (e.g. `1.21.1`) define `MC1_21_1` and the wildcard `MC1_21_X`.  
+        (For three‑segment versions, the plain `MCmajor_minor` form like `MC1_21` is **not** defined.)
+      * **Non‑standard versions** (snapshots, pre‑releases like `1.21-rc1`) define only a sanitized form
+        (e.g. `MC1_21_RC1`). Wildcard preprocessing (such as `MC1_21_X`) is **not** available for these versions.
+    - This allows you to write version‑specific code blocks that are automatically included or excluded during
+      compilation based on the target `minecraft_version`. Use the `_X` wildcard to match an entire minor release
+      family when your code is compatible across all patches of that family.
 
 4. **JUnit 5 Testing Support**
     - Added `org.junit.jupiter:junit-jupiter` as a common test dependency, so unit tests can be written and executed

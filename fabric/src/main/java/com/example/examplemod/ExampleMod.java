@@ -14,5 +14,9 @@ public class ExampleMod implements ModInitializer {
         // Use Fabric to bootstrap the Common mod.
         Constants.LOG.info("Hello Fabric world!");
         CommonClass.init();
+
+        #if MC26_1_X
+        Constants.LOG.info("Hello from 26.1.X Fabric");
+        #endif
     }
 }
