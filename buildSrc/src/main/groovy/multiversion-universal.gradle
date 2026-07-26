@@ -1,0 +1,36 @@
+gradle.ext.loadVersionProperties(project.ext)
+
+allprojects {
+    tasks.withType(JavaCompile).configureEach {
+        def currentVersion = minecraft_version.replace('.', '_')
+        options.compilerArgs += ['-Xplugin:Manifold', '-AMC' + currentVersion]
+        if (minecraft_version ==~ /^\d+\.\d+\.\d+$/) {
+            def blurryVersion = currentVersion.substring(0, currentVersion.lastIndexOf('_') + 1) + 'X'
+            options.compilerArgs += ['-AMC' + blurryVersion]
+        } else {
+            println "WARNING: Snapshot version detected (${minecraft_version})." +
+                    " Wildcard version preprocessing (e.g., MC1_21_X) is not available for snapshots."
+        }
+    }
+
+    dependencies {
+        annotationProcessor "systems.manifold:manifold-preprocessor:2026.1.0"
+        testAnnotationProcessor "systems.manifold:manifold-preprocessor:2026.1.0"
+
+        // Test dependencies
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    // Ensure test source set has access to Minecraft dependencies from moddev
+    sourceSets {
+        test {
+            compileClasspath += sourceSets.main.compileClasspath
+            runtimeClasspath += sourceSets.main.runtimeClasspath
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
