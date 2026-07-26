@@ -1,9 +1,8 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'multiversion-universal'
 }
-
-gradle.ext.loadVersionProperties(project.ext)
 
 base {
     archivesName = "${mod_id}-${project.name}-${minecraft_version}"
