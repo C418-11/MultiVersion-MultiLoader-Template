@@ -34,6 +34,10 @@ public class CommonClass {
         Constants.LOG.info("Hello from 26.1");
         #elif MC26_1_X
         Constants.LOG.info("Hello from 26.1.X");
+        #elif MC26_2
+        Constants.LOG.info("Hello from 26.2");
+        #elif MC26_3
+        Constants.LOG.info("Hello from 26.3");
         #endif
     }
 }
