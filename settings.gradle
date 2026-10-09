@@ -50,10 +50,10 @@ include('common')
 
 void includeMODLoader(String loaderProperty, String loaderName, String projectPath) {
     if (settings.ext.get(loaderProperty) != "null") {
-        println "${loaderName.capitalize()} loader included, version: ${settings.ext.get(loaderProperty)}"
+        println "${loaderName} loader included, version: ${settings.ext.get(loaderProperty)}"
         include(projectPath)
     } else {
-        println "${loaderName.capitalize()} loader skipped: '${loaderProperty}' not set"
+        println "${loaderName} loader skipped: '${loaderProperty}' not set"
     }
 }
 
