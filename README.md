@@ -53,8 +53,8 @@ This version introduces the following changes to support easier multi‑version 
       settings.
 
 2. **Conditional Loader Subproject Inclusion**
-    - The build automatically includes or excludes loader‑specific subprojects (Fabric, NeoForge, Forge) based on the
-      corresponding property (`fabric_version`, `neoforge_version`, `forge_version`) defined in the
+    - The build automatically includes or excludes loader‑specific subprojects (Fabric, NeoForge) based on the
+      corresponding property (`fabric_version`, `neoforge_version`) defined in the
       `${minecraft_version}.properties` file.
     - A loader subproject is excluded when its property is explicitly set to `"null"` (as a string).  
       *Example:* `fabric_version=null` will exclude the Fabric subproject for that Minecraft version.
